@@ -2,11 +2,14 @@ cmake_minimum_required(VERSION 2.6)
 
 project(opencv-tests)
 
+list(APPEND CMAKE_PREFIX_PATH "${PROJECT_SOURCE_DIR}/third_party/eigen/install")
 list(APPEND CMAKE_PREFIX_PATH "${PROJECT_SOURCE_DIR}/third_party/opencv/install")
 
-find_package(OpenCV REQUIRED PATHS "${OpenCV_DIR}")
+find_package(OpenCV REQUIRED)
+find_package(eigen3 REQUIRED)
 
 include_directories(
+  ${EIGEN3_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
 
@@ -31,7 +34,6 @@ macro (CV_TEST NAME)
   add_custom_command(
     TARGET ${NAME}_test
     COMMENT "Run tests"
-    POST_BUILD 
     COMMAND ${NAME}_test
   )
 endmacro (CV_TEST)
